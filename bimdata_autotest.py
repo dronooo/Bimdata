@@ -1,0 +1,56 @@
+from selenium import webdriver
+driver = webdriver.Chrome()
+driver.maximize_window()
+driver.implicitly_wait(5)
+import time
+driver.get("https://phptravels.com/demo/")
+driver.execute_script("window.scrollBy(0, 150);")
+time.sleep(3)
+admin_backend_btn = driver.find_element_by_link_text("http://www.phptravels.net/admin").click()
+window_after1 = driver.window_handles[1]
+driver.switch_to.window(window_after1)
+time.sleep(1)
+email = driver.find_element_by_css_selector("input[type='text']")
+email.send_keys("admin@phptravels.com")
+password = driver.find_element_by_css_selector("input[type='password']")
+password.send_keys("demoadmin")
+login_btn = driver.find_element_by_css_selector("button.btn.btn-primary.btn-block.ladda-button.fadeIn.animated.btn-lg").click()
+cms_page = driver.find_element_by_css_selector("button.btn.btn-info.btn-block").click()
+add = driver.find_element_by_css_selector("button.btn.btn-success").click()
+page_title = driver.find_element_by_css_selector("input.form-control.pagetitle")
+page_title.send_keys("dronooo")
+permalink = driver.find_element_by_css_selector("input.form-control.pull-right.permalink")
+permalink.send_keys("dronooo")
+status = driver.find_element_by_css_selector("select[name='status']>[value='Yes']").click()
+target = driver.find_element_by_css_selector("select[name='pagetarget']>[value='self']").click()
+link = driver.find_element_by_css_selector("input[name='externalink']")
+link.send_keys("https://google.com")
+Icon = driver.find_element_by_css_selector("input[name='page_icon']")
+Icon.send_keys("Page Icon !!!!!")
+keywords = driver.find_element_by_css_selector("input[name='keywords']")
+keywords.send_keys("Page, title, word")
+description = driver.find_element_by_css_selector("input[name='pagedesc']")
+description.send_keys("Сюда можно ввести какой-нибудь текст")
+source = driver.find_element_by_css_selector("a#cke_46").click()
+time.sleep(5)
+textarea = driver.find_element_by_css_selector("textarea[dir='ltr']")
+time.sleep(5)
+textarea.send_keys("Это большое текстовое поле. Сюда можно ввести текст. Много текста. Очень много текста...")
+submit = driver.find_element_by_css_selector("button.btn.btn-primary.btn-block.btn-lg").click()
+content_page = driver.find_element_by_css_selector("tr>td:nth-child(3)")
+content_page_text = content_page.text
+assert "dronooo" in content_page_text
+driver.get("https://phptravels.net/api/dronooo")
+content_page_title = driver.find_element_by_css_selector("h2.sec__title_list")
+content_page_title_text = content_page_title.text
+assert content_page_title.text == 'dronooo'
+txt = driver.find_element_by_css_selector("div.collapse-inner.terms-inner")
+txt_text = txt.text
+assert "Очень много текста..." in txt_text
+driver.get('https://phptravels.net/api/admin/cms')
+checkbox = driver.find_element_by_css_selector("tbody>tr:nth-child(1)>td>input").click()
+delete_btn = driver.find_element_by_css_selector("button.btn.btn-danger>strong").click()
+confirm = driver.switch_to.alert
+confirm.accept()
+time.sleep(3)
+driver.quit()
